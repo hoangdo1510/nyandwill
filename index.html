@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target='_top'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts for signature-like font -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Font Awesome for timeline icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+      // Nếu đang trong iframe trên mobile, bẻ khung mở full page
+      if (window.top !== window.self && /Mobi|Android/i.test(navigator.userAgent)) {
+        // Chỉ bẻ khung nếu URL hiện tại của iframe KHÁC với URL của top window
+        // để tránh vòng lặp vô hạn nếu trang đã được mở full screen rồi.
+        if (window.location.href !== window.top.location.href) {
+            window.top.location.href = window.location.href;
+        }
+      }
+    </script>
+    <style>
+      html {
+        font-size: 16px; /* Base font size */
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      @font-face {
+        font-family: 'SVN-Ameyallinda Signature';
+        /* TODO: User needs to ensure this font file is hosted or available in the project */
+        /* For Apps Script, it's tricky to host custom fonts directly without a server. */
+        /* A common workaround is to link to Google Fonts or self-host and use a full URL. */
+        /* As a placeholder, if not available, it will fall back to cursive. */
+        src: local('SVN-Ameyallinda Signature Regular'), local('SVN-AmeyallindaSignatureRegular'),
+             url('SVN-Ameyallinda-Signature-Regular.ttf') format('truetype'); /* Placeholder path */
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        background-color: #F9EFE5; /* Light cream from palette */
+        color: #A26F54; /* Brown/copper from palette for text */
+        font-family: 'Cambria', 'Times New Roman', serif;
+        padding: 20px; /* Default padding for larger screens */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        box-sizing: border-box;
+        opacity: 0;
+        animation: fadeInPage 0.8s ease-out forwards;
+      }
+
+      @keyframes fadeInPage {
+        to { opacity: 1; }
+      }
+
+      .container {
+        max-width: 500px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.8); /* Slight transparency for a softer look */
+        border-radius: 12px;
+        padding: 30px 35px; /* Default padding for larger screens */
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInForm 0.6s 0.3s ease-out forwards;
+      }
+      
+      @keyframes fadeInForm {
+        to { 
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-family: 'SVN-Ameyallinda Signature', 'Brush Script MT', cursive;
+        font-size: 3.25rem; /* 52px / 16px */
+        color: #A26F54; /* Brown/copper from palette */
+        margin-bottom: 25px;
+        font-weight: normal;
+      }
+
+      label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 8px;
+        font-family: 'Cambria Italic', 'Times New Roman', serif;
+        font-style: italic;
+        color: #A26F54; /* Darker text for labels */
+        text-align: left;
+      }
+      
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Align checkbox and text to the left */
+        font-style: italic;
+        font-family: 'Cambria Italic', 'Times New Roman', serif;
+        color: #A26F54;
+        margin-bottom: 20px; /* Consistent margin */
+        cursor: pointer;
+      }
+
+      .checkbox-label input[type='checkbox'] {
+        width: auto; /* Override full width for checkbox */
+        margin-right: 10px;
+        transform: scale(1.2); /* Slightly larger checkbox */
+      }
+
+      input[type='text'], input[type='number'] {
+        width: 100%; /* Will fit due to box-sizing */
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #DDCDBE; /* Softer border color */
+        border-radius: 6px;
+        font-family: 'Cambria', 'Times New Roman', serif;
+        font-size: 16px;
+        background-color: #fff;
+        color: #5D4037; /* Darker text for input */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      input[type='text']:focus, input[type='number']:focus {
+        border-color: #A26F54;
+        box-shadow: 0 0 0 2px rgba(162, 111, 84, 0.2);
+        outline: none;
+      }
+
+      button {
+        background-color: #A26F54; /* Brown/copper from palette */
+        color: #F9EFE5; /* Light cream text */
+        padding: 12px 30px;
+        border: none;
+        border-radius: 6px;
+        font-size: 18px;
+        font-family: 'Cambria', 'Times New Roman', serif;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: block;
+        width: 100%; /* Full width button */
+        margin-top: 10px; /* Space above button */
+      }
+
+      button:hover {
+        background-color: #8E5C45; /* Darker shade on hover */
+        transform: translateY(-2px);
+      }
+
+      #status {
+        margin-top: 25px;
+        color: #A26F54;
+        font-family: 'Cambria', 'Times New Roman', serif;
+        font-size: 17px;
+        font-weight: bold;
+        min-height: 25px; /* Reserve space for status message */
+      }
+
+      /* Responsive adjustments for smaller screens */
+      @media (max-width: 600px) {
+        body {
+          padding: 15px;
+        }
+        .container {
+          padding: 25px 20px; /* Reduced padding for smaller screens */
+        }
+        h1 {
+          font-size: 2.5rem; /* 40px / 16px - Smaller h1 for mobile */
+        }
+        label {
+          font-size: 0.95rem; /* ~15px */
+        }
+        input[type='text'], input[type='number'] {
+          padding: 10px;
+          font-size: 0.95rem;
+        }
+        button {
+          padding: 10px 20px;
+          font-size: 1rem; /* 16px */
+        }
+        #status {
+          font-size: 0.9rem; /* ~14.4px */
+        }
+      }
+
+      /* Invitation Header */
+      .invite-header {
+        margin-bottom: 30px;
+      }
+      .couple-names {
+        font-family: 'Great Vibes', cursive;
+        font-size: 2.5rem;
+        color: #A26F54;
+        margin-bottom: 5px;
+      }
+      .couple-names-image {
+        max-width: 80%;
+        height: auto;
+        display: block;
+        margin: 0 auto 10px;
+      }
+      .invite-date, .invite-location {
+        font-family: 'Cambria', serif;
+        font-size: 0.9rem;
+        color: #5D4037;
+        margin-bottom: 3px;
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; /* align items at top so line can center on icon */
+        padding: 24px 0; /* top padding = half icon height to center line */
+      }
+      .timeline-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 25%;
+        z-index: 2;
+      }
+      .timeline-icon {
+        font-size: 1.5rem;
+        color: #F9EFE5;
+        background: #A26F54;
+        padding: 12px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .timeline-text {
+        margin-top: 8px;
+      }
+      .timeline-text .time {
+        font-size: 0.85rem;
+        color: #5D4037;
+      }
+      .timeline-text .label {
+        font-size: 0.75rem;
+        color: #5D4037;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+      /* Waterfall effect for timeline icons and text */
+      .timeline-item:nth-child(1) {
+        transform: translateY(-20px);
+      }
+      .timeline-item:nth-child(2) {
+        transform: translateY(10px);
+      }
+      .timeline-item:nth-child(3) {
+        transform: translateY(40px);
+      }
+      .timeline-item:nth-child(4) {
+        transform: translateY(60px);
+      }
+      /* Attendance toggle button */
+      .attendance-btn {
+        display: inline-block;
+        margin: 20px auto 10px;
+        border: 1px solid #A26F54;
+        background: transparent;
+        color: #A26F54;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-family: 'Cambria', serif;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      .attendance-btn.active {
+        background-color: #A26F54;
+        color: #F9EFE5;
+      }
+      .dresscode {
+        text-align: center;
+        font-family: 'Cambria', serif;
+        font-size: 0.9rem;
+        color: #5D4037;
+        margin-top: 10px;
+      }
+      .party-info.hidden {
+        display: none;
+      }
+      .party-info.visible {
+        display: block;
+        margin-top: 20px;
+      }
+      /* Dresscode styling */
+      .dresscode-title {
+        font-family: 'Cambria', serif;
+        font-size: 1.1rem;
+        color: #5D4037;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .dresscode-colors {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 10px;
+      }
+      .color-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .color-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #DDCDBE;
+      }
+      .color-label {
+        font-family: 'Cambria', serif;
+        font-size: 0.85rem;
+        color: #5D4037;
+        margin-top: 5px;
+      }
+      /* Sequential reveal for timeline items */
+      .timeline-item {
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+      .timeline-item.visible {
+        opacity: 1;
+      }
+      /* Dresscode section hidden until reveal */
+      #dresscode-section {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+      #dresscode-section.visible {
+        display: block;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Invitation Header -->
+      <div class="invite-header">
+        <img src="https://drive.google.com/uc?export=download&id=1jnz9FEy4hLEn7bHiu_iAUzZLOzgaXqIB" alt="Minh Quân & Thụy Ý" class="couple-names-image">
+        <p class="invite-date">05.07.2025 | 15:30</p>
+        <p class="invite-location">Sandy Beach Resort – Đà Nẵng</p>
+      </div>
+      <form id='rsvp-form'>
+        <label for="nameInput">Tên Khách Mời:</label>
+        <input id="nameInput" type='text' name='name' required>
+        
+        <label for="guestsInput">Số Lượng Khách:</label>
+        <input id="guestsInput" type='number' name='guests' min='1' value='1' required>
+        
+        <!-- Attendance toggle button -->
+        <button type="button" id="attendanceBtn" class="attendance-btn">Tôi sẽ tham dự</button>
+        <input type="hidden" name="attendance" id="attendanceInput" value="false">
+        
+        <button type='submit'>Gửi Phản Hồi</button>
+        
+        <!-- Party information (hidden until user opts in) -->
+        <div id="party-info" class="party-info hidden">
+          <!-- Timeline section -->
+          <div id="timeline-section">
+            <div class="timeline">
+              <div class="timeline-item">
+                <i class="fas fa-glass-martini timeline-icon"></i>
+                <div class="timeline-text"><div class="time">16:00</div><div class="label">Welcome Drink</div></div>
+              </div>
+              <div class="timeline-item">
+                <i class="fas fa-ring timeline-icon"></i>
+                <div class="timeline-text"><div class="time">16:30</div><div class="label">Ceremony</div></div>
+              </div>
+              <div class="timeline-item">
+                <i class="fas fa-camera timeline-icon"></i>
+                <div class="timeline-text"><div class="time">17:00</div><div class="label">Group Photo</div></div>
+              </div>
+              <div class="timeline-item">
+                <i class="fas fa-utensils timeline-icon"></i>
+                <div class="timeline-text"><div class="time">18:00</div><div class="label">Reception Dinner</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Dresscode section -->
+          <div id="dresscode-section" class="hidden">
+            <div class="dresscode-title">Dresscode</div>
+            <div class="dresscode-colors">
+              <div class="color-item">
+                <div class="color-circle" style="background:#FFFFFF;"></div>
+                <div class="color-label">White</div>
+              </div>
+              <div class="color-item">
+                <div class="color-circle" style="background:#F9EFE5;"></div>
+                <div class="color-label">Beige</div>
+              </div>
+              <div class="color-item">
+                <div class="color-circle" style="background:#A26F54;"></div>
+                <div class="color-label">Brown</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div id='status'></div>
+    </div>
+
+    <script>
+      // Attendance toggle logic
+      const attendanceBtn = document.getElementById('attendanceBtn');
+      const attendanceInput = document.getElementById('attendanceInput');
+      const partyInfo = document.getElementById('party-info');
+      attendanceBtn.addEventListener('click', () => {
+        const isActive = attendanceBtn.classList.toggle('active');
+        attendanceInput.value = isActive.toString();
+        const timelineItems = partyInfo.querySelectorAll('.timeline-item');
+        const dressSection = document.getElementById('dresscode-section');
+        if (isActive) {
+          // Hiện party info
+          partyInfo.classList.add('visible');
+          // Sequential reveal timeline items
+          timelineItems.forEach((item, idx) => {
+            item.classList.remove('visible');
+            setTimeout(() => item.classList.add('visible'), idx * 600);
+          });
+          // Sau khi timeline reveal xong thì hiển thị dresscode
+          setTimeout(() => dressSection.classList.add('visible'), timelineItems.length * 600 + 500);
+          // Nếu partyInfo chưa hoàn toàn trong view, scroll
+          const rect = partyInfo.getBoundingClientRect();
+          if (rect.bottom > window.innerHeight || rect.top < 0) {
+            partyInfo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else {
+          // Ẩn party info và reset các mục
+          partyInfo.classList.remove('visible');
+          timelineItems.forEach(item => item.classList.remove('visible'));
+          dressSection.classList.remove('visible');
+        }
+      });
+      const form = document.getElementById('rsvp-form');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+        // Lấy giá trị attendance từ hidden input
+        data.attendance = form.querySelector('#attendanceInput').value === 'true';
+
+        document.getElementById('status').innerText = 'Đang gửi...';
+        google.script.run
+          .withSuccessHandler(response => {
+            if (response === 'success') {
+              document.getElementById('status').innerText = 'Cảm ơn bạn đã phản hồi!';
+              form.reset();
+              // Thu hồi party info khi reset
+              attendanceBtn.classList.remove('active');
+              partyInfo.classList.remove('visible');
+            } else {
+              document.getElementById('status').innerText = 'Đã có lỗi xảy ra, vui lòng thử lại.';
+            }
+          })
+          .withFailureHandler(error => {
+             document.getElementById('status').innerText = 'Lỗi: ' + error.message;
+          })
+          .processForm(data);
+      });
+    </script>
+  </body>
+</html> 
