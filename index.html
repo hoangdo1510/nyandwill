@@ -303,6 +303,26 @@
         color: #F9EFE5; /* Màu chữ cho nhãn màu */
         margin-top: 5px;
       }
+
+      .party-photo {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin: 30px auto 0;
+      }
+
+      .sorry-image {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80%;
+        z-index: 1000;
+        pointer-events: none;
+        filter: drop-shadow(0 0 4px #fff);
+        opacity: 1;
+        transition: opacity 3s ease-out;
+      }
       /* Sequential reveal for timeline items */
       .timeline-item {
         opacity: 0;
@@ -394,6 +414,7 @@
             </div>
           </div>
         </div>
+        <img src="9b8f88fbbe990ac75388.jpg" alt="Party" class="party-photo">
       </div> <!-- end of party-info -->
       </form>
       <div id='status' class='reveal'></div>
@@ -412,6 +433,19 @@
 
       const form = document.getElementById('rsvp-form');
       const declineBtn = document.getElementById('declineBtn');
+
+      function showSorryImage() {
+        const img = document.createElement('img');
+        img.src = 'Subject.png';
+        img.className = 'sorry-image';
+        document.body.appendChild(img);
+        setTimeout(() => {
+          img.style.opacity = '0';
+        }, 1000);
+        setTimeout(() => {
+          img.remove();
+        }, 4000);
+      }
       function revealPartyInfo() {
         const partyInfoElement = document.getElementById('party-info');
         partyInfoElement.classList.add('visible');
@@ -483,6 +517,8 @@
             document.getElementById('status').innerText = 'Vui lòng điền đầy đủ thông tin tên và số lượng khách.';
             return;
         }
+
+        showSorryImage();
 
         const data = {
           name: nameInput.value,
