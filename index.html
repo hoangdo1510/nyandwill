@@ -102,6 +102,15 @@
         transform: translateY(-2px);
       }
 
+      button:disabled,
+      .attendance-btn:disabled {
+        background-color: #DDCDBE; /* Subtle disabled shade */
+        color: #a26e54;
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
       #status {
         margin-top: 25px;
         color: #F9EFE5;
@@ -321,7 +330,7 @@
         pointer-events: none;
         filter: drop-shadow(0 0 4px #fff);
         opacity: 1;
-        transition: opacity 3s ease-out;
+        transition: opacity 0.5s ease-out;
       }
       /* Sequential reveal for timeline items */
       .timeline-item {
@@ -447,10 +456,10 @@
         document.body.appendChild(img);
         setTimeout(() => {
           img.style.opacity = '0';
-        }, 1000);
+        }, 2000);
         setTimeout(() => {
           img.remove();
-        }, 4000);
+        }, 2500);
       }
       function revealPartyInfo() {
         const partyInfoElement = document.getElementById('party-info');
