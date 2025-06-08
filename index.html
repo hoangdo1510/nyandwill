@@ -414,7 +414,7 @@
             </div>
           </div>
         </div>
-        <img src="9b8f88fbbe990ac75388.jpg" alt="Party" class="party-photo">
+        <img src="https://raw.githubusercontent.com/hoangdo1510/nyandwill/main/9b8f88fbbe990ac75388.jpg" alt="Party" class="party-photo">
       </div> <!-- end of party-info -->
       </form>
       <div id='status' class='reveal'></div>
@@ -432,11 +432,17 @@
       const partyInfo = document.getElementById('party-info');
 
       const form = document.getElementById('rsvp-form');
+      const submitBtn = document.getElementById('submitBtn');
       const declineBtn = document.getElementById('declineBtn');
+
+      function disableButtons() {
+        submitBtn.disabled = true;
+        declineBtn.disabled = true;
+      }
 
       function showSorryImage() {
         const img = document.createElement('img');
-        img.src = 'Subject.png';
+        img.src = 'https://raw.githubusercontent.com/hoangdo1510/nyandwill/main/Subject.png';
         img.className = 'sorry-image';
         document.body.appendChild(img);
         setTimeout(() => {
@@ -487,6 +493,7 @@
             if (response === 'success') {
               document.getElementById('status').innerText = 'Cảm ơn bạn đã phản hồi!';
               revealPartyInfo();
+              disableButtons();
             } else {
               document.getElementById('status').innerText = 'Đã có lỗi xảy ra, vui lòng thử lại.';
             }
@@ -531,7 +538,7 @@
           .withSuccessHandler(response => {
             if (response === 'success') {
               document.getElementById('status').innerText = '';
-              revealPartyInfo();
+              disableButtons();
             } else {
               document.getElementById('status').innerText = 'Đã có lỗi xảy ra, vui lòng thử lại.';
             }
