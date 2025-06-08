@@ -394,6 +394,7 @@
             </div>
           </div>
         </div>
+      </div> <!-- end of party-info -->
       </form>
       <div id='status' class='reveal'></div>
     </div>
@@ -411,6 +412,26 @@
 
       const form = document.getElementById('rsvp-form');
       const declineBtn = document.getElementById('declineBtn');
+      function revealPartyInfo() {
+        const partyInfoElement = document.getElementById('party-info');
+        partyInfoElement.classList.add('visible');
+
+        const timelineItems = partyInfoElement.querySelectorAll('.timeline-item');
+        timelineItems.forEach((item, idx) => {
+          setTimeout(() => item.classList.add('visible'), idx * 200);
+        });
+
+        const dresscodeSection = document.getElementById('dresscode-section');
+        dresscodeSection.classList.remove('hidden');
+        setTimeout(() => {
+          dresscodeSection.classList.add('visible');
+          const colorItems = dresscodeSection.querySelectorAll('.color-item');
+          colorItems.forEach((item, idx) => {
+            setTimeout(() => item.classList.add('visible'), idx * 150);
+          });
+        }, timelineItems.length * 200);
+      }
+
 
       form.addEventListener('submit', e => {
         e.preventDefault();
@@ -431,13 +452,7 @@
           .withSuccessHandler(response => {
             if (response === 'success') {
               document.getElementById('status').innerText = 'Cảm ơn bạn đã phản hồi!';
-              // Hiển thị party info và focus
-              const partyInfoElement = document.getElementById('party-info');
-              partyInfoElement.classList.add('visible');
-              requestAnimationFrame(() => {
-                partyInfoElement.focus();
-                // partyInfoElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              });
+              revealPartyInfo();
             } else {
               document.getElementById('status').innerText = 'Đã có lỗi xảy ra, vui lòng thử lại.';
             }
@@ -480,13 +495,7 @@
           .withSuccessHandler(response => {
             if (response === 'success') {
               document.getElementById('status').innerText = '';
-              // Hiển thị party info và focus
-              const partyInfoElement = document.getElementById('party-info');
-              partyInfoElement.classList.add('visible');
-              requestAnimationFrame(() => {
-                partyInfoElement.focus();
-                // partyInfoElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              });
+              revealPartyInfo();
             } else {
               document.getElementById('status').innerText = 'Đã có lỗi xảy ra, vui lòng thử lại.';
             }
